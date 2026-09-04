@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dpm.Identity.Application\Dpm.Identity.Application.csproj" />
+    <ProjectReference Include="..\Dpm.Identity.Infrastructure\Dpm.Identity.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

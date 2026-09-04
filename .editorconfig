@@ -1,0 +1,40 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+[*.{cs,csproj,props,targets,sln}]
+indent_size = 4
+
+[*.cs]
+dotnet_diagnostic.CA1848.severity = none
+# The shared kernel type names (Result, Error, Money) are fixed by the spec and
+# this solution is C#-only, so cross-language keyword collisions do not apply.
+dotnet_diagnostic.CA1716.severity = none
+# Handlers name their parameter command/query rather than MediatR's generic
+# request, matching the CQRS naming the spec mandates.
+dotnet_diagnostic.CA1725.severity = none
+csharp_style_namespace_declarations = file_scoped:warning
+csharp_style_var_when_type_is_apparent = true:suggestion
+dotnet_style_require_accessibility_modifiers = always:warning
+
+[api/tests/**/*.cs]
+# Test methods read as sentences, so underscores are intentional here.
+dotnet_diagnostic.CA1707.severity = none
+
+[*.{ts,tsx,js,jsx,json,yml,yaml,html,css,scss}]
+indent_size = 2
+
+[*.sql]
+indent_size = 4
+
+[*.md]
+trim_trailing_whitespace = false
+
+[Makefile]
+indent_style = tab
