@@ -1,0 +1,19 @@
+/* Design tokens; Bootstrap variables are overridden through these (spec 07 section 7.12). */
+:root {
+  --dpm-radius: 0.5rem;
+  --dpm-space-sm: 0.5rem;
+  --dpm-space-md: 1rem;
+  --dpm-space-lg: 1.5rem;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.card {
+  border-radius: var(--dpm-radius);
+}

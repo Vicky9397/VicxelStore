@@ -1,0 +1,53 @@
+{
+  "app": {
+    "name": "VicxelStore",
+    "tagline": "Digital products from independent creators"
+  },
+  "nav": {
+    "browse": "Browse",
+    "account": "Account",
+    "seller": "Seller",
+    "login": "Log in",
+    "register": "Sign up",
+    "logout": "Log out"
+  },
+  "auth": {
+    "loginTitle": "Log in",
+    "loginSubtitle": "Access your purchases, licenses and downloads.",
+    "registerTitle": "Create an account",
+    "registerSubtitle": "Buy digital products, or start selling your own.",
+    "email": "Email",
+    "password": "Password",
+    "displayName": "Display name",
+    "submitLogin": "Log in",
+    "submitRegister": "Create account",
+    "noAccount": "Need an account?",
+    "haveAccount": "Already registered?",
+    "forgotPassword": "Forgot your password?",
+    "registerSuccess": "Check your email to verify your account before buying or selling.",
+    "verifyTitle": "Verify your email",
+    "verifyPending": "Verifying your email address.",
+    "verifySuccess": "Your email is verified. You can log in now.",
+    "verifyFailed": "This verification link is invalid or has expired.",
+    "verifyMissingToken": "This link is missing its verification token.",
+    "resendTitle": "Send a new verification link",
+    "resendSubmit": "Resend verification email",
+    "resendSuccess": "If the account exists, a verification email was sent.",
+    "unverifiedBanner": "Verify your email to buy, download or publish.",
+    "loggedInAs": "Logged in as {{name}}"
+  },
+  "errors": {
+    "generic": "Something went wrong. Try again.",
+    "network": "Cannot reach the server. Check your connection.",
+    "notFoundTitle": "Page not found",
+    "notFoundBody": "The page you asked for does not exist.",
+    "forbiddenTitle": "Not allowed",
+    "forbiddenBody": "Your account cannot access this page.",
+    "rateLimited": "Too many attempts. Wait a moment and try again."
+  },
+  "common": {
+    "loading": "Loading",
+    "retry": "Retry",
+    "home": "Home"
+  }
+}

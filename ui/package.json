@@ -1,0 +1,46 @@
+{
+  "name": "vicxelstore-ui",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
+    "lint": "eslint .",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.59.16",
+    "bootstrap": "^5.3.3",
+    "i18next": "^23.16.4",
+    "react": "^18.3.1",
+    "react-bootstrap": "^2.10.5",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.1",
+    "react-i18next": "^15.1.0",
+    "react-router-dom": "^6.27.0",
+    "zod": "^3.23.8",
+    "zustand": "^5.0.1",
+    "@hookform/resolvers": "^3.9.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.2",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@typescript-eslint/eslint-plugin": "^8.11.0",
+    "@typescript-eslint/parser": "^8.11.0",
+    "@vitejs/plugin-react": "^4.3.3",
+    "eslint": "^8.57.1",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.14",
+    "jsdom": "^25.0.1",
+    "msw": "^2.6.0",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10",
+    "vitest": "^2.1.4"
+  }
+}
