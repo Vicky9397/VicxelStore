@@ -37,6 +37,7 @@ public static class IdentityInfrastructureModule
         }
 
         services.AddScoped<IVerificationEmailComposer, VerificationEmailComposer>();
+        services.AddScoped<Dpm.Identity.Contracts.IUserDirectory, UserDirectory>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         services.AddScoped<IUserTokenRepository, UserTokenRepository>();

@@ -4,6 +4,7 @@ using Dpm.Identity.Application.Logout;
 using Dpm.Identity.Application.Refresh;
 using Dpm.Identity.Application.Register;
 using Dpm.Identity.Application.VerifyEmail;
+using Dpm.SharedApi;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

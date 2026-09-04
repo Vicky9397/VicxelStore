@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dpm.Marketplace.Application\Dpm.Marketplace.Application.csproj" />
+    <ProjectReference Include="..\Dpm.Marketplace.Contracts\Dpm.Marketplace.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
+  </ItemGroup>
+
+</Project>

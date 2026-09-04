@@ -1,6 +1,10 @@
 using Dpm.Api.Extensions;
 using Dpm.Api.Middleware;
+using Dpm.Catalog.Api;
+using Dpm.Files.Api;
 using Dpm.Identity.Api;
+using Dpm.Marketplace.Api;
+using Dpm.SharedApi;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +37,9 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddIdentityModule(builder.Configuration);
+builder.Services.AddMarketplaceModule(builder.Configuration);
+builder.Services.AddCatalogModule(builder.Configuration);
+builder.Services.AddFilesModule(builder.Configuration);
 builder.Services.AddApiAuthentication();
 builder.Services.AddApiRateLimiting();
 

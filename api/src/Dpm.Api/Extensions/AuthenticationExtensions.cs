@@ -1,4 +1,5 @@
 using Dpm.Identity.Infrastructure.Security;
+using Dpm.SharedApi;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -42,7 +43,13 @@ public static class AuthenticationExtensions
         services.AddAuthorizationBuilder()
             .SetFallbackPolicy(new Microsoft.AspNetCore.Authorization.AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
-                .Build());
+                .Build())
+            .AddPolicy(AuthorizationPolicies.StaffOnly, policy =>
+                policy.RequireRole("Admin", "Moderator", "Support"))
+            .AddPolicy(AuthorizationPolicies.ModeratorOnly, policy =>
+                policy.RequireRole("Admin", "Moderator"))
+            .AddPolicy(AuthorizationPolicies.EmailVerified, policy =>
+                policy.RequireClaim("email_verified", "true"));
 
         return services;
     }

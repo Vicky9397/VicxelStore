@@ -92,3 +92,34 @@ BEGIN
     );
 END
 GO
+
+-- Read projection owned by Catalog, maintained from the Files module's
+-- FileScanned integration event. It exists so the publish invariant ("at least
+-- one variant with at least one Clean file", spec 04 section 4.7) can be checked
+-- without Catalog reaching into files.* -- Files is downstream of Catalog in the
+-- module dependency graph, so the arrow may not be reversed.
+IF OBJECT_ID('catalog.VariantFileReadiness', 'U') IS NULL
+BEGIN
+    CREATE TABLE catalog.VariantFileReadiness (
+        VariantId BIGINT NOT NULL PRIMARY KEY REFERENCES catalog.ProductVariants(Id),
+        CleanFileCount INT NOT NULL DEFAULT 0,
+        UpdatedAtUtc DATETIME2(3) NOT NULL DEFAULT SYSUTCDATETIME()
+    );
+END
+GO
+
+-- Moderation decision history. Rejected products carry the moderator's reason
+-- (spec 02 section 2.4 Product Management).
+IF OBJECT_ID('catalog.ProductModerations', 'U') IS NULL
+BEGIN
+    CREATE TABLE catalog.ProductModerations (
+        Id BIGINT IDENTITY(1,1) PRIMARY KEY,
+        ProductId BIGINT NOT NULL REFERENCES catalog.Products(Id),
+        ModeratorUserId BIGINT NOT NULL REFERENCES [identity].Users(Id),
+        Decision TINYINT NOT NULL,                   -- 1 Approved,2 Rejected
+        Reason NVARCHAR(1000) NULL,
+        CreatedAtUtc DATETIME2(3) NOT NULL DEFAULT SYSUTCDATETIME(),
+        INDEX IX_ProductModerations_Product (ProductId, CreatedAtUtc)
+    );
+END
+GO

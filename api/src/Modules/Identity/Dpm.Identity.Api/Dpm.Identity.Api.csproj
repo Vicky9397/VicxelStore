@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Dpm.Identity.Application\Dpm.Identity.Application.csproj" />
     <ProjectReference Include="..\Dpm.Identity.Infrastructure\Dpm.Identity.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\Dpm.SharedApi\Dpm.SharedApi.csproj" />
   </ItemGroup>
 
 </Project>

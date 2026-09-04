@@ -1,4 +1,4 @@
-# Data dictionary (baseline V001)
+# Data dictionary (through V002)
 
 Full column definitions live in `db/schema/<module>/<module>.sql`; this is the
 table-level index. Conventions: PK `Id BIGINT IDENTITY` (internal), external id
@@ -20,7 +20,11 @@ timestamps UTC `DATETIME2(3)`.
 | catalog | ProductVariants | Priced editions with license type + download limit |
 | catalog | ProductVersions | Version number + changelog |
 | catalog | Tags / ProductTags | Tagging |
+| catalog | VariantFileReadiness | Clean-file counts per variant, projected from the Files module's FileScanned event |
+| catalog | ProductModerations | Moderation decision history with the moderator's reason |
 | files | ProductFiles | Object-storage keys, checksum, AV scan status |
+| files | FileUploads | Chunked upload sessions: declared size and checksum, part size, quarantine key |
+| files | FileUploadParts | Received parts of an upload session |
 | files | DownloadLogs | Per-download audit; partition candidate |
 | orders | Carts / CartItems | Persistent per-user cart (guest cart is a signed cookie) |
 | orders | Orders / OrderLines | Money totals, status lifecycle, commission snapshot per line |

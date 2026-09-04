@@ -2,11 +2,12 @@ using Dpm.BuildingBlocks.Application;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Dpm.Identity.Api;
+namespace Dpm.SharedApi;
 
 /// <summary>
 /// Translates Result failures into RFC 9457 problem+json responses using the
-/// error model of spec 06 section 6.4.
+/// error model of spec 06 section 6.4. Shared by every module's Api layer so the
+/// error surface is identical across the API.
 /// </summary>
 public static class ApiResults
 {

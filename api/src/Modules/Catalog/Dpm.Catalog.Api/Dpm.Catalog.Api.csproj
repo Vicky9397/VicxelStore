@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dpm.Catalog.Application\Dpm.Catalog.Application.csproj" />
+    <ProjectReference Include="..\Dpm.Catalog.Infrastructure\Dpm.Catalog.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\Dpm.SharedApi\Dpm.SharedApi.csproj" />
+    <ProjectReference Include="..\..\Identity\Dpm.Identity.Contracts\Dpm.Identity.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

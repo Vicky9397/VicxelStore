@@ -7,6 +7,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Modules\Identity\Dpm.Identity.Application\Dpm.Identity.Application.csproj" />
     <ProjectReference Include="..\..\src\Modules\Identity\Dpm.Identity.Infrastructure\Dpm.Identity.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Marketplace\Dpm.Marketplace.Infrastructure\Dpm.Marketplace.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Catalog\Dpm.Catalog.Infrastructure\Dpm.Catalog.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Files\Dpm.Files.Infrastructure\Dpm.Files.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

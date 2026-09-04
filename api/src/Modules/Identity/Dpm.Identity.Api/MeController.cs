@@ -1,5 +1,6 @@
 using Dpm.Identity.Application.Contracts;
 using Dpm.Identity.Application.Me;
+using Dpm.SharedApi;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
