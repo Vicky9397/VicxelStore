@@ -54,3 +54,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Append-only lint (no UPDATE/DELETE against ledger or audit tables)
         run: ./db/deploy/lint-append-only.sh
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install sqlfluff
+        run: pip install sqlfluff==3.2.5
+      - name: Parse-check every SQL script as T-SQL
+        run: ./db/deploy/lint-sql-parse.sh
