@@ -29,12 +29,30 @@ module integration goes through published interfaces and domain events only.
 
 | Module | State |
 |--------|-------|
-| BuildingBlocks | Result/Error, Money, Entity/AggregateRoot/ValueObject, domain events, outbox message, validation + logging pipeline behaviors |
+| BuildingBlocks | Result/Error, Money, Entity/AggregateRoot/ValueObject, domain events, outbox message, cross-module integration events, validation + logging pipeline behaviors |
+| SharedApi | problem+json translation and the named authorization policies |
 | Identity | Register, verify email, resend verification, login, refresh (rotating, reuse-detecting), logout, `/me` |
+| Marketplace | Store creation and branding, KYC/tax/bank onboarding, staff verification, suspension and reinstatement |
+| Catalog | Products, variants, versions, categories, tags, the draft-to-published lifecycle with moderation, and storefront read queries |
+| Files | Resumable chunked upload with checksum verification, quarantine storage, and scan-gated availability |
 
-Remaining modules (Marketplace, Catalog, Files, Orders, Payments, Ledger,
-Downloads, Reviews, Notifications, Administration) land in milestone order per
-spec `11B section 3`.
+Remaining modules (Orders, Payments, Ledger, Downloads, Reviews, Notifications,
+Administration) land in milestone order per spec `11B section 3`.
+
+### Cross-module wiring
+
+The spec fixes the dependency direction as
+`Identity -> Marketplace -> Catalog -> Files` and forbids reversing an arrow.
+Each module publishes a `Contracts` assembly holding only interfaces and DTOs,
+which the modules downstream of it reference; no module reads another module's
+tables.
+
+Because Files sits below Catalog, a scan outcome cannot travel back up as a
+direct reference. It travels as the `FileScanned` integration event, defined in
+the shared kernel that both already depend on, and Catalog projects it into its
+own variant readiness table. The event carries the resulting clean-file total
+rather than a delta, so replaying it under at-least-once delivery converges
+instead of double-counting.
 
 ## Run
 

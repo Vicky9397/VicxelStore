@@ -31,3 +31,132 @@ export interface ApiError {
   status: number;
   fieldErrors: FieldError[];
 }
+
+export interface Money {
+  amount: number;
+  currency: string;
+}
+
+export interface Category {
+  id: number;
+  slug: string;
+  name: string;
+  parentId: number | null;
+}
+
+export interface ProductSummary {
+  id: string;
+  slug: string;
+  title: string;
+  storeSlug: string;
+  storeName: string;
+  categorySlug: string;
+  fromPrice: Money;
+  ratingAvg: number;
+  ratingCount: number;
+  publishedAtUtc: string | null;
+}
+
+export interface Variant {
+  id: string;
+  name: string;
+  price: Money;
+  licenseType: string;
+  downloadLimit: number;
+  isActive: boolean;
+  hasCleanFile: boolean;
+}
+
+export interface ProductVersion {
+  versionNumber: string;
+  changelog: string | null;
+  releasedAtUtc: string;
+}
+
+export interface ProductDetail {
+  id: string;
+  slug: string;
+  title: string;
+  description: string | null;
+  storeSlug: string;
+  storeName: string;
+  categorySlug: string;
+  ratingAvg: number;
+  ratingCount: number;
+  publishedAtUtc: string | null;
+  variants: Variant[];
+  versions: ProductVersion[];
+  tags: string[];
+}
+
+export interface PageInfo {
+  page: number;
+  pageSize: number;
+  total: number;
+}
+
+export interface ProductPage {
+  data: ProductSummary[];
+  page: PageInfo;
+}
+
+export interface SellerProduct {
+  id: string;
+  slug: string;
+  title: string;
+  status: string;
+  variantCount: number;
+  isPublishReady: boolean;
+  updatedAtUtc: string;
+}
+
+export interface Store {
+  id: string;
+  slug: string;
+  name: string;
+  about: string | null;
+  logoUrl: string | null;
+  bannerUrl: string | null;
+  status: string;
+}
+
+export interface SellerProfile {
+  kycStatus: string;
+  legalName: string | null;
+  taxIdType: string | null;
+  taxId: string | null;
+  bankVerified: boolean;
+  isPublishReady: boolean;
+}
+
+export interface MyStore {
+  store: Store;
+  profile: SellerProfile;
+}
+
+export interface UploadSession {
+  uploadId: string;
+  partSizeBytes: number;
+  totalParts: number;
+  missingParts: number[];
+}
+
+export interface ProductFile {
+  id: string;
+  fileName: string;
+  sizeBytes: number;
+  scanStatus: string;
+  isDownloadable: boolean;
+}
+
+export interface SellerProductDetail {
+  id: string;
+  slug: string;
+  title: string;
+  description: string | null;
+  categorySlug: string;
+  status: string;
+  isPublishReady: boolean;
+  variants: Variant[];
+  versions: ProductVersion[];
+}

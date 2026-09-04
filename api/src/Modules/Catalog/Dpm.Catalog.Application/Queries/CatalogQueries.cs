@@ -107,3 +107,33 @@ public sealed class ListModerationQueueQueryHandler(IProductQueries queries)
         return Result.Success(items);
     }
 }
+
+public sealed record GetMyProductQuery(Guid ProductId) : IQuery<SellerProductDetailDto>;
+
+/// <summary>
+/// The owner's view of one of their own products, in any status. The public
+/// detail endpoint serves only published products, so the seller needs this to
+/// manage a draft: without it a draft's variants would be unreachable and no
+/// file could ever be attached.
+/// </summary>
+public sealed class GetMyProductQueryHandler(
+    Abstractions.IProductRepository products,
+    Abstractions.ICategoryRepository categories,
+    IStoreDirectory stores)
+    : IQueryHandler<GetMyProductQuery, SellerProductDetailDto>
+{
+    public async Task<Result<SellerProductDetailDto>> Handle(
+        GetMyProductQuery query,
+        CancellationToken cancellationToken)
+    {
+        var owned = await OwnedProduct.ResolveAsync(products, stores, query.ProductId, cancellationToken);
+        if (owned.IsFailure)
+        {
+            return Result.Failure<SellerProductDetailDto>(owned.Error);
+        }
+
+        var product = owned.Value.Product;
+        var category = await categories.FindByIdAsync(product.CategoryId, cancellationToken);
+        return Result.Success(product.ToSellerDetailDto(category?.Slug ?? string.Empty));
+    }
+}

@@ -68,10 +68,26 @@ through `t()`; the header carries a locale toggle.
 
 | Route | State |
 |-------|-------|
-| `/` | Storefront shell (catalog lands in M2) |
+| `/` | Landing page |
+| `/search` | Browse with category and sort filters held in the query string |
+| `/p/:slug` | Product detail with selectable license variants |
+| `/s/:slug` | Store front |
 | `/login`, `/register`, `/verify-email` | Implemented against the Identity module |
 | `/account` | Buyer dashboard shell behind `RequireAuth` |
+| `/seller/store` | Store creation and the KYC, tax and payout onboarding steps |
+| `/seller/products` | The seller's catalog with submit, publish and unpublish |
+| `/seller/products/new` | Draft creation with variants |
+| `/seller/products/:productId` | Per-variant file upload and scan status |
 | `/403`, `*` | Forbidden and not-found pages |
 
-Remaining routes (search, product detail, cart, checkout, purchases, seller,
-admin) follow the milestone order in spec `11B section 4`.
+Remaining routes (cart, checkout, purchases, admin) follow the milestone order
+in spec `11B section 4`.
+
+## File upload
+
+`features/seller/api/chunkedUpload.ts` drives the resumable upload: it hashes
+the file, declares it, sends only the parts the server still reports missing,
+then completes. Because the server returns the outstanding parts on every
+response, an interrupted upload resumes rather than restarting. Scanning is
+asynchronous, so the uploader polls scan status and reports Pending, Clean or
+Infected rather than claiming success at upload time.

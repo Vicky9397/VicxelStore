@@ -88,6 +88,17 @@ public sealed class ProductsController(ISender sender) : ControllerBase
         return result.IsSuccess ? Ok(result.Value) : ApiResults.Problem(result.Error, HttpContext);
     }
 
+    /// <summary>The owner's view of their own product, available in any status.</summary>
+    [HttpGet("{id:guid}/manage")]
+    [Authorize]
+    [ProducesResponseType(typeof(SellerProductDetailDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
+    public async Task<ActionResult<SellerProductDetailDto>> GetMine(Guid id, CancellationToken ct)
+    {
+        var result = await sender.Send(new GetMyProductQuery(id), ct);
+        return result.IsSuccess ? Ok(result.Value) : ApiResults.Problem(result.Error, HttpContext);
+    }
+
     [HttpPost]
     [Authorize(Policy = AuthorizationPolicies.EmailVerified)]
     [ProducesResponseType(typeof(SellerProductDto), StatusCodes.Status201Created)]

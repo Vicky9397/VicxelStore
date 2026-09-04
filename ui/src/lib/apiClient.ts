@@ -72,6 +72,8 @@ async function toApiError(response: Response): Promise<ApiError> {
 interface RequestOptions {
   method?: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
   body?: unknown;
+  /** Raw bytes sent as-is, for binary endpoints such as file part uploads. */
+  rawBody?: BodyInit | undefined;
   idempotencyKey?: string;
   skipRefresh?: boolean;
 }
@@ -80,6 +82,8 @@ async function send(path: string, options: RequestOptions): Promise<Response> {
   const headers: Record<string, string> = { Accept: 'application/json' };
   if (options.body !== undefined) {
     headers['Content-Type'] = 'application/json';
+  } else if (options.rawBody !== undefined) {
+    headers['Content-Type'] = 'application/octet-stream';
   }
   if (accessToken !== null) {
     headers['Authorization'] = `Bearer ${accessToken}`;
@@ -88,11 +92,16 @@ async function send(path: string, options: RequestOptions): Promise<Response> {
     headers['Idempotency-Key'] = options.idempotencyKey;
   }
 
+  const body =
+    options.body !== undefined
+      ? JSON.stringify(options.body)
+      : options.rawBody;
+
   return fetch(`${API_BASE}${path}`, {
     method: options.method ?? 'GET',
     headers,
     credentials: 'include',
-    ...(options.body !== undefined ? { body: JSON.stringify(options.body) } : {}),
+    ...(body !== undefined ? { body } : {}),
   });
 }
 

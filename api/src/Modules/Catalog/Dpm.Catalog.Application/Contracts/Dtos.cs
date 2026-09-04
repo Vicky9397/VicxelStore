@@ -51,6 +51,18 @@ public sealed record SellerProductDto(
     bool IsPublishReady,
     DateTime UpdatedAtUtc);
 
+/// <summary>The owner's view of their own product, visible in any status.</summary>
+public sealed record SellerProductDetailDto(
+    Guid Id,
+    string Slug,
+    string Title,
+    string? Description,
+    string CategorySlug,
+    string Status,
+    bool IsPublishReady,
+    IReadOnlyList<VariantDto> Variants,
+    IReadOnlyList<VersionDto> Versions);
+
 public sealed record ModerationQueueItemDto(
     Guid Id,
     string Title,

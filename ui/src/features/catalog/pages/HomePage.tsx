@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { useAuthStore } from '@/features/auth/store';
 
 /**
- * Placeholder storefront. The catalog feature (featured, trending, categories)
- * arrives with milestone M2; this keeps the shell navigable until then.
+ * Landing page. Featured and trending rails arrive with the recommendation work
+ * in a later phase; browse and search are live.
  */
 export function HomePage(): ReactElement {
   const { t } = useTranslation();
@@ -16,13 +16,18 @@ export function HomePage(): ReactElement {
       <h1 className="h2">{t('app.name')}</h1>
       <p className="lead text-muted">{t('app.tagline')}</p>
 
-      {user === null ? (
-        <Link className="btn btn-primary" to="/register">
-          {t('nav.register')}
+      <div className="d-flex gap-2 align-items-center">
+        <Link className="btn btn-primary" to="/search">
+          {t('catalog.browseTitle')}
         </Link>
-      ) : (
-        <p>{t('auth.loggedInAs', { name: user.displayName })}</p>
-      )}
+        {user === null ? (
+          <Link className="btn btn-outline-primary" to="/register">
+            {t('nav.register')}
+          </Link>
+        ) : (
+          <span className="text-muted">{t('auth.loggedInAs', { name: user.displayName })}</span>
+        )}
+      </div>
     </div>
   );
 }

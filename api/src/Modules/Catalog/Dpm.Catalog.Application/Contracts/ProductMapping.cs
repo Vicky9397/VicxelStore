@@ -13,6 +13,20 @@ public static class ProductMapping
         variant.IsActive,
         variant.HasCleanFile);
 
+    public static SellerProductDetailDto ToSellerDetailDto(this Product product, string categorySlug) => new(
+        product.PublicId,
+        product.Slug,
+        product.Title,
+        product.Description,
+        categorySlug,
+        product.Status.ToString(),
+        product.CheckPublishReadiness().IsSuccess,
+        product.Variants.Select(v => v.ToDto()).ToList(),
+        product.Versions
+            .OrderByDescending(v => v.ReleasedAtUtc)
+            .Select(v => new VersionDto(v.VersionNumber, v.Changelog, v.ReleasedAtUtc))
+            .ToList());
+
     public static SellerProductDto ToSellerDto(this Product product) => new(
         product.PublicId,
         product.Slug,
