@@ -19,5 +19,8 @@ public sealed class OutboxMessage
 
     public DateTime? ProcessedAtUtc { get; set; }
 
+    /// <summary>Delivery attempts so far. A message that exhausts them is parked, never dropped.</summary>
+    public int Attempts { get; set; }
+
     public string? Error { get; set; }
 }

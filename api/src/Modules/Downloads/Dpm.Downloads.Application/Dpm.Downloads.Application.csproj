@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Dpm.BuildingBlocks\Dpm.BuildingBlocks.csproj" />
+    <ProjectReference Include="..\..\Orders\Dpm.Orders.Contracts\Dpm.Orders.Contracts.csproj" />
+    <ProjectReference Include="..\..\Files\Dpm.Files.Contracts\Dpm.Files.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

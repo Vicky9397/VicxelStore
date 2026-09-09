@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dpm.Payments.Application\Dpm.Payments.Application.csproj" />
+    <ProjectReference Include="..\Dpm.Payments.Infrastructure\Dpm.Payments.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\Dpm.SharedApi\Dpm.SharedApi.csproj" />
+  </ItemGroup>
+
+</Project>

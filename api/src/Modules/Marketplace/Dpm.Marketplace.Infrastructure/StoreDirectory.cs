@@ -26,6 +26,12 @@ public sealed class StoreDirectory(IStoreRepository stores, ICurrentSeller curre
         return store is null ? null : ToSummary(store);
     }
 
+    public async Task<decimal?> FindCommissionOverrideAsync(long storeId, CancellationToken ct)
+    {
+        var store = await stores.FindByIdAsync(storeId, ct);
+        return store?.Profile.CommissionOverridePct;
+    }
+
     private static StoreSummary ToSummary(Domain.Store store) =>
         new(store.Id, store.PublicId, store.Slug, store.Name, store.IsActive, store.CanPublish);
 }

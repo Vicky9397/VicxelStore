@@ -25,6 +25,30 @@ public static class RateLimitingExtensions
                     QueueLimit = 0,
                 }));
 
+            // Checkout and downloads are money and delivery paths, so they carry
+            // tighter per-caller limits than ordinary reads (spec 08 section 8.9).
+            options.AddPolicy("checkout", context => RateLimitPartition.GetFixedWindowLimiter(
+                partitionKey: context.User.Identity?.Name
+                    ?? context.Connection.RemoteIpAddress?.ToString()
+                    ?? "unknown",
+                factory: _ => new FixedWindowRateLimiterOptions
+                {
+                    PermitLimit = 20,
+                    Window = TimeSpan.FromMinutes(1),
+                    QueueLimit = 0,
+                }));
+
+            options.AddPolicy("download", context => RateLimitPartition.GetFixedWindowLimiter(
+                partitionKey: context.User.Identity?.Name
+                    ?? context.Connection.RemoteIpAddress?.ToString()
+                    ?? "unknown",
+                factory: _ => new FixedWindowRateLimiterOptions
+                {
+                    PermitLimit = 60,
+                    Window = TimeSpan.FromMinutes(1),
+                    QueueLimit = 0,
+                }));
+
             options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(
                 context => RateLimitPartition.GetFixedWindowLimiter(
                     partitionKey: context.Connection.RemoteIpAddress?.ToString() ?? "unknown",

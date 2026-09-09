@@ -22,6 +22,8 @@ public static class ApiResults
             ErrorKind.Forbidden => StatusCodes.Status403Forbidden,
             ErrorKind.Locked => StatusCodes.Status423Locked,
             ErrorKind.RateLimited => StatusCodes.Status429TooManyRequests,
+            ErrorKind.Gone => StatusCodes.Status410Gone,
+            ErrorKind.PaymentFailed => StatusCodes.Status402PaymentRequired,
             _ => StatusCodes.Status500InternalServerError,
         };
 

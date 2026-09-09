@@ -10,6 +10,9 @@ public interface IStoreDirectory
     Task<StoreSummary?> FindForCurrentUserAsync(CancellationToken ct);
 
     Task<StoreSummary?> FindByIdAsync(long storeId, CancellationToken ct);
+
+    /// <summary>The seller's negotiated commission rate, when one is set.</summary>
+    Task<decimal?> FindCommissionOverrideAsync(long storeId, CancellationToken ct);
 }
 
 /// <param name="CanPublish">

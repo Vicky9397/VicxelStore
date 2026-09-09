@@ -15,3 +15,12 @@ BEGIN
     );
 END
 GO
+
+-- Delivery bookkeeping for the dispatcher. A message that exhausts its attempts
+-- is parked (left unprocessed with its error visible) rather than dropped: a
+-- money event that never lands is a reconciliation break, not a discard.
+IF COL_LENGTH('dbo.OutboxMessages', 'Attempts') IS NULL
+BEGIN
+    ALTER TABLE dbo.OutboxMessages ADD Attempts INT NOT NULL DEFAULT 0;
+END
+GO

@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dpm.Orders.Domain\Dpm.Orders.Domain.csproj" />
+    <ProjectReference Include="..\..\Catalog\Dpm.Catalog.Contracts\Dpm.Catalog.Contracts.csproj" />
+    <ProjectReference Include="..\..\Marketplace\Dpm.Marketplace.Contracts\Dpm.Marketplace.Contracts.csproj" />
+    <ProjectReference Include="..\..\Payments\Dpm.Payments.Contracts\Dpm.Payments.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

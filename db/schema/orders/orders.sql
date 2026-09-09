@@ -47,6 +47,8 @@ BEGIN
         GrandTotal DECIMAL(19,4) NOT NULL,
         Status TINYINT NOT NULL DEFAULT 1,           -- 1 Pending,2 Paid,3 Completed,4 Refunded,5 Disputed,6 Cancelled
         InvoiceNo NVARCHAR(40) NULL,
+        BillingCountry CHAR(2) NULL,
+        HoldReleaseAtUtc DATETIME2(3) NULL,        -- hold clock starts at completion
         PlacedAtUtc DATETIME2(3) NOT NULL DEFAULT SYSUTCDATETIME(),
         CompletedAtUtc DATETIME2(3) NULL,
         RowVersion ROWVERSION,
@@ -101,5 +103,25 @@ IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name = 'FK_DownloadLogs_Lice
 BEGIN
     ALTER TABLE files.DownloadLogs
         ADD CONSTRAINT FK_DownloadLogs_License FOREIGN KEY (LicenseId) REFERENCES orders.Licenses(Id);
+END
+GO
+
+-- The download quota the buyer actually paid for, carried alongside the line so
+-- a later change to the variant cannot shrink an issued license. Kept in its own
+-- additive table so the spec-defined OrderLines columns stay exactly as specified.
+IF OBJECT_ID('orders.OrderLineTerms', 'U') IS NULL
+BEGIN
+    CREATE TABLE orders.OrderLineTerms (
+        Id BIGINT NOT NULL PRIMARY KEY REFERENCES orders.OrderLines(Id),
+        DownloadLimit INT NOT NULL DEFAULT 5
+    );
+END
+GO
+
+-- Invoice numbering sequence (spec 05 section 5.7): gap-tolerant and
+-- contiguous-ish without the contention of a counter row.
+IF NOT EXISTS (SELECT 1 FROM sys.sequences WHERE name = 'InvoiceNumbers' AND SCHEMA_NAME(schema_id) = 'orders')
+BEGIN
+    CREATE SEQUENCE orders.InvoiceNumbers AS BIGINT START WITH 1 INCREMENT BY 1;
 END
 GO

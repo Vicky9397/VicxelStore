@@ -1,8 +1,13 @@
 using Dpm.Api.Extensions;
 using Dpm.Api.Middleware;
 using Dpm.Catalog.Api;
+using Dpm.Downloads.Api;
 using Dpm.Files.Api;
 using Dpm.Identity.Api;
+using Dpm.Ledger.Api;
+using Dpm.Orders.Api;
+using Dpm.Outbox;
+using Dpm.Payments.Api;
 using Dpm.Marketplace.Api;
 using Dpm.SharedApi;
 using Microsoft.OpenApi.Models;
@@ -40,6 +45,11 @@ builder.Services.AddIdentityModule(builder.Configuration);
 builder.Services.AddMarketplaceModule(builder.Configuration);
 builder.Services.AddCatalogModule(builder.Configuration);
 builder.Services.AddFilesModule(builder.Configuration);
+builder.Services.AddOrdersModule(builder.Configuration);
+builder.Services.AddPaymentsModule(builder.Configuration);
+builder.Services.AddLedgerModule(builder.Configuration);
+builder.Services.AddDownloadsModule(builder.Configuration);
+builder.Services.AddOutboxDispatcher(builder.Configuration);
 builder.Services.AddApiAuthentication();
 builder.Services.AddApiRateLimiting();
 

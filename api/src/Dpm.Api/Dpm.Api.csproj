@@ -5,6 +5,11 @@
     <ProjectReference Include="..\Modules\Marketplace\Dpm.Marketplace.Api\Dpm.Marketplace.Api.csproj" />
     <ProjectReference Include="..\Modules\Catalog\Dpm.Catalog.Api\Dpm.Catalog.Api.csproj" />
     <ProjectReference Include="..\Modules\Files\Dpm.Files.Api\Dpm.Files.Api.csproj" />
+    <ProjectReference Include="..\Modules\Orders\Dpm.Orders.Api\Dpm.Orders.Api.csproj" />
+    <ProjectReference Include="..\Modules\Payments\Dpm.Payments.Api\Dpm.Payments.Api.csproj" />
+    <ProjectReference Include="..\Modules\Ledger\Dpm.Ledger.Api\Dpm.Ledger.Api.csproj" />
+    <ProjectReference Include="..\Modules\Downloads\Dpm.Downloads.Api\Dpm.Downloads.Api.csproj" />
+    <ProjectReference Include="..\Dpm.Outbox\Dpm.Outbox.csproj" />
     <ProjectReference Include="..\Dpm.SharedApi\Dpm.SharedApi.csproj" />
   </ItemGroup>
 

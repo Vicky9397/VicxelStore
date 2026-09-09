@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Dpm.Files.Application\Dpm.Files.Application.csproj" />
+    <ProjectReference Include="..\Dpm.Files.Contracts\Dpm.Files.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

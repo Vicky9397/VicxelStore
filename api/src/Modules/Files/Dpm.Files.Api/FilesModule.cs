@@ -34,6 +34,7 @@ public static class FilesModule
         services.AddScoped<IProductFileRepository, ProductFileRepository>();
         services.AddScoped<IFilesUnitOfWork, FilesUnitOfWork>();
         services.AddScoped<ICurrentUploader, CurrentUploader>();
+        services.AddScoped<Dpm.Files.Contracts.IFileDirectory, Dpm.Files.Infrastructure.FileDirectory>();
         services.AddSingleton<IFileStorage, LocalFileStorage>();
 
         var scannerHost = configuration.GetSection(VirusScannerOptions.SectionName)["Host"];

@@ -10,6 +10,10 @@
     <ProjectReference Include="..\..\src\Modules\Marketplace\Dpm.Marketplace.Infrastructure\Dpm.Marketplace.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Modules\Catalog\Dpm.Catalog.Infrastructure\Dpm.Catalog.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Modules\Files\Dpm.Files.Infrastructure\Dpm.Files.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Orders\Dpm.Orders.Infrastructure\Dpm.Orders.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Payments\Dpm.Payments.Infrastructure\Dpm.Payments.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Ledger\Dpm.Ledger.Infrastructure\Dpm.Ledger.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Downloads\Dpm.Downloads.Infrastructure\Dpm.Downloads.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
