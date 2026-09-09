@@ -78,10 +78,25 @@ through `t()`; the header carries a locale toggle.
 | `/seller/products` | The seller's catalog with submit, publish and unpublish |
 | `/seller/products/new` | Draft creation with variants |
 | `/seller/products/:productId` | Per-variant file upload and scan status |
+| `/cart` | Cart with live totals and save-for-later |
+| `/checkout` | Quote with regional tax, then confirm |
+| `/checkout/return` | Post-payment landing that polls until the capture settles |
+| `/account/purchases` | Order history |
+| `/account/orders/:orderId` | Order detail with licenses and downloads |
 | `/403`, `*` | Forbidden and not-found pages |
 
-Remaining routes (cart, checkout, purchases, admin) follow the milestone order
-in spec `11B section 4`.
+Remaining routes (wishlist, messaging, admin) follow the milestone order in
+spec `11B section 4`.
+
+## Checkout
+
+The buyer gets a quote before committing, and the total they saw is sent back
+with the confirmation, so a price that moved underneath them stops the charge
+instead of surprising them. Each attempt carries a fresh idempotency key that is
+reused across retries, so a dropped response cannot become a second order.
+
+The return page does not claim success: capture is confirmed by the provider's
+webhook, so the page polls until the order actually settles.
 
 ## File upload
 

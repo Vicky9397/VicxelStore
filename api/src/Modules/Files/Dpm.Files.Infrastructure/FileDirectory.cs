@@ -5,6 +5,16 @@ namespace Dpm.Files.Infrastructure;
 
 public sealed class FileDirectory(IProductFileRepository files) : IFileDirectory
 {
+    public async Task<IReadOnlyList<StoredFile>> ListDownloadableAsync(long variantId, CancellationToken ct)
+    {
+        var found = await files.ListCleanForVariantAsync(variantId, ct);
+        return found
+            .Select(f => new StoredFile(
+                f.Id, f.PublicId, f.VariantId, f.StorageKey, f.FileName, f.SizeBytes,
+                f.ScanStatus.ToString(), f.IsDownloadable))
+            .ToList();
+    }
+
     public async Task<StoredFile?> FindFileAsync(Guid filePublicId, CancellationToken ct)
     {
         var file = await files.FindByPublicIdAsync(filePublicId, ct);

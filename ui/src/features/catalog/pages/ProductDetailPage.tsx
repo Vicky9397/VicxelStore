@@ -1,16 +1,30 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState, type ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Spinner } from '@/components/ui/Spinner';
+import { addToCart } from '@/features/cart/api/cartApi';
 import { getProduct } from '@/features/catalog/api/catalogApi';
+import { useAuthStore } from '@/features/auth/store';
+import { FormError } from '@/components/forms/FormError';
 import { ApiRequestError } from '@/lib/apiClient';
 import { formatMoney } from '@/lib/money';
 
 export function ProductDetailPage(): ReactElement {
   const { t, i18n } = useTranslation();
   const { slug = '' } = useParams();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const isSignedIn = useAuthStore((state) => state.status === 'authenticated');
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
+
+  const addItem = useMutation({
+    mutationFn: (variantId: string) => addToCart(variantId),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ['cart'] });
+      navigate('/cart');
+    },
+  });
 
   const product = useQuery({
     queryKey: ['product', slug],
@@ -97,10 +111,25 @@ export function ProductDetailPage(): ReactElement {
               </div>
             ))}
 
-            <button className="btn btn-primary w-100 mt-3" type="button" disabled>
+            <FormError error={addItem.error} />
+
+            <button
+              className="btn btn-primary w-100 mt-3"
+              type="button"
+              disabled={selectedVariant === undefined || addItem.isPending}
+              onClick={() => {
+                if (!isSignedIn) {
+                  navigate('/login', { state: { from: `/p/${slug}` } });
+                  return;
+                }
+
+                if (selectedVariant !== undefined) {
+                  addItem.mutate(selectedVariant.id);
+                }
+              }}
+            >
               {t('catalog.addToCart')}
             </button>
-            <p className="text-muted small mt-2 mb-0">{t('catalog.cartComingSoon')}</p>
           </div>
         </div>
       </div>

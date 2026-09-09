@@ -35,9 +35,50 @@ module integration goes through published interfaces and domain events only.
 | Marketplace | Store creation and branding, KYC/tax/bank onboarding, staff verification, suspension and reinstatement |
 | Catalog | Products, variants, versions, categories, tags, the draft-to-published lifecycle with moderation, and storefront read queries |
 | Files | Resumable chunked upload with checksum verification, quarantine storage, and scan-gated availability |
+| Orders | Cart, checkout quote and idempotent confirm, orders, licenses issued on capture |
+| Payments | Provider abstraction, signature-verified webhooks, exactly-once inbox, idempotency store |
+| Ledger | Append-only double-entry journal, sale posting, derived wallet balances, reconciliation |
+| Downloads | Entitlement, quota and scan gates, short-lived signed URLs, download logging |
+| Outbox | Dispatcher delivering domain events after commit, with retry and parking |
 
-Remaining modules (Orders, Payments, Ledger, Downloads, Reviews, Notifications,
-Administration) land in milestone order per spec `11B section 3`.
+Remaining modules (Reviews, Notifications, Administration, Analytics, CMS,
+Messaging) land in milestone order per spec `11B section 3`.
+
+## The money path
+
+A purchase moves through four modules, and the ordering is what keeps it safe:
+
+1. **Checkout** re-prices the cart against the live catalog, resolves each
+   line's commission, computes tax for the billing region, and places a Pending
+   order. It requires an `Idempotency-Key`, so a retry returns the first result
+   rather than placing a second order.
+2. **Payments** creates the provider intent. Nothing is captured here; a client
+   cannot assert that it paid.
+3. A **signature-verified webhook** is the only path that captures. It is
+   deduplicated by provider event id, and the capture commits in the same
+   transaction as its outbox event.
+4. The **outbox dispatcher** delivers that event to Orders, which issues one
+   license per line, and to Ledger, which posts the balanced journal. Delivery
+   is at-least-once and retried until it succeeds, so a capture is never left
+   without its ledger row.
+
+Every consumer on that path is replay-safe: a redelivered capture issues no
+second license, posts no second journal entry, and announces nothing twice.
+
+Balances are never stored. A seller's wallet is summed from `ledger.LedgerLines`
+on every read, and the reconciliation query reports any transaction whose debits
+and credits disagree, which must always be none.
+
+### Payment providers
+
+`IPaymentProvider` is the whole surface a gateway needs to implement. Two
+adapters ship today: a sandbox provider that signs its own webhooks so the
+verification, inbox and ledger path runs for real without a network call, and
+manual bank transfer, which an administrator confirms.
+
+A hosted gateway (Stripe or Razorpay) is the same interface plus live keys.
+That adapter is deliberately not written blind: payment code that has never been
+exercised against the real provider should not look production-ready.
 
 ### Cross-module wiring
 

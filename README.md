@@ -79,7 +79,7 @@ The API serves Swagger UI at `/swagger` in non-production environments.
 | M0 | Monorepo scaffolding, CI, docker-compose | Done |
 | M1 | Identity end-to-end: register, verify, login, refresh, `/me` + UI auth | Done (email delivery logs to MailHog in dev) |
 | M2 | Stores, files (upload + scan), catalog publish with moderation | Done |
-| M3 | Cart, checkout (one provider), orders, licenses, ledger, downloads | Pending |
+| M3 | Cart, checkout (one provider), orders, licenses, ledger, downloads | Done (sandbox and manual-bank providers; a hosted gateway adapter needs live keys) |
 | M4 | Wallet, hold expiry, payouts, reviews, email notifications | Pending |
 | M5 | Admin portal, reports, reconciliation | Pending |
 | M6 | Hardening: rate limits, security headers, perf, E2E | Pending |

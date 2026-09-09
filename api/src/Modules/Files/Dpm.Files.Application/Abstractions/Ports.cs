@@ -15,6 +15,8 @@ public interface IProductFileRepository
 
     Task<int> CountCleanForVariantAsync(long variantId, CancellationToken ct);
 
+    Task<IReadOnlyList<ProductFile>> ListCleanForVariantAsync(long variantId, CancellationToken ct);
+
     void Add(ProductFile file);
 }
 

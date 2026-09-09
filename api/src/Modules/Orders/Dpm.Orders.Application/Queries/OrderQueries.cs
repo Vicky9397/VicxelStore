@@ -1,5 +1,6 @@
 using Dpm.BuildingBlocks.Application;
 using Dpm.Catalog.Contracts;
+using Dpm.Files.Contracts;
 using Dpm.Orders.Application.Abstractions;
 using Dpm.Orders.Application.Contracts;
 using Dpm.Orders.Domain;
@@ -13,7 +14,7 @@ public sealed record GetOrderQuery(Guid OrderId) : IQuery<OrderDto>;
 public sealed record ListMyLicensesQuery : IQuery<IReadOnlyList<LicenseDto>>;
 
 /// <summary>Projects orders with the catalog titles a buyer expects to see.</summary>
-public sealed class OrderProjector(ICatalogDirectory catalog)
+public sealed class OrderProjector(ICatalogDirectory catalog, IFileDirectory files)
 {
     public async Task<OrderDto> ProjectAsync(Order order, CancellationToken ct)
     {
@@ -32,14 +33,7 @@ public sealed class OrderProjector(ICatalogDirectory catalog)
 
         foreach (var license in order.Licenses)
         {
-            var names = await ResolveNamesAsync(license.VariantId, ct);
-            licenses.Add(new LicenseDto(
-                license.PublicId,
-                names.ProductTitle,
-                names.VariantName,
-                license.DownloadLimit,
-                license.DownloadsUsed,
-                license.IssuedAtUtc));
+            licenses.Add(await ProjectLicenseAsync(license, ct));
         }
 
         return new OrderDto(
@@ -62,18 +56,30 @@ public sealed class OrderProjector(ICatalogDirectory catalog)
         {
             foreach (var license in order.Licenses)
             {
-                var names = await ResolveNamesAsync(license.VariantId, ct);
-                licenses.Add(new LicenseDto(
-                    license.PublicId,
-                    names.ProductTitle,
-                    names.VariantName,
-                    license.DownloadLimit,
-                    license.DownloadsUsed,
-                    license.IssuedAtUtc));
+                licenses.Add(await ProjectLicenseAsync(license, ct));
             }
         }
 
         return licenses;
+    }
+
+    /// <summary>
+    /// Carries the files this license can actually download, so the buyer is
+    /// never shown a button with nothing behind it.
+    /// </summary>
+    private async Task<LicenseDto> ProjectLicenseAsync(License license, CancellationToken ct)
+    {
+        var names = await ResolveNamesAsync(license.VariantId, ct);
+        var downloadable = await files.ListDownloadableAsync(license.VariantId, ct);
+
+        return new LicenseDto(
+            license.PublicId,
+            names.ProductTitle,
+            names.VariantName,
+            license.DownloadLimit,
+            license.DownloadsUsed,
+            license.IssuedAtUtc,
+            downloadable.Select(f => new LicenseFileDto(f.PublicId, f.FileName, f.SizeBytes)).ToList());
     }
 
     /// <summary>

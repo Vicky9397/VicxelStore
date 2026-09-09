@@ -192,6 +192,10 @@ public sealed class IssueDownloadUrlTests
 
         public Task<StoredFile?> FindFileAsync(Guid filePublicId, CancellationToken ct) =>
             Task.FromResult(File is not null && File.PublicId == filePublicId ? File : null);
+
+        public Task<IReadOnlyList<StoredFile>> ListDownloadableAsync(long variantId, CancellationToken ct) =>
+            Task.FromResult<IReadOnlyList<StoredFile>>(
+                File is not null && File.VariantId == variantId && File.IsDownloadable ? [File] : []);
     }
 
     private sealed class StubSignedUrlFactory : ISignedUrlFactory

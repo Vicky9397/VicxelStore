@@ -160,3 +160,89 @@ export interface SellerProductDetail {
   variants: Variant[];
   versions: ProductVersion[];
 }
+
+export interface CartItem {
+  variantId: string;
+  productSlug: string;
+  productTitle: string;
+  variantName: string;
+  price: Money;
+  savedForLater: boolean;
+  isAvailable: boolean;
+}
+
+export interface Cart {
+  id: string;
+  items: CartItem[];
+  subtotal: Money;
+  itemCount: number;
+}
+
+export interface Totals {
+  subtotal: number;
+  discount: number;
+  tax: number;
+  grandTotal: number;
+  currency: string;
+}
+
+export interface Quote {
+  totals: Totals;
+  items: CartItem[];
+}
+
+export interface PaymentIntent {
+  provider: string;
+  clientSecret: string;
+  instructions: string | null;
+}
+
+export interface CheckoutResult {
+  orderPublicId: string;
+  paymentIntent: PaymentIntent;
+  totals: Totals;
+}
+
+export interface LicenseFile {
+  id: string;
+  fileName: string;
+  sizeBytes: number;
+}
+
+export interface License {
+  id: string;
+  productTitle: string;
+  variantName: string;
+  downloadLimit: number;
+  downloadsUsed: number;
+  issuedAtUtc: string;
+  files: LicenseFile[];
+}
+
+export interface OrderLine {
+  productTitle: string;
+  variantName: string;
+  unitPrice: Money;
+}
+
+export interface Order {
+  id: string;
+  status: string;
+  invoiceNo: string | null;
+  totals: Totals;
+  placedAtUtc: string;
+  lines: OrderLine[];
+  licenses: License[];
+}
+
+export interface DownloadUrl {
+  url: string;
+  expiresInSeconds: number;
+}
+
+export interface Wallet {
+  pending: number;
+  available: number;
+  inTransit: number;
+  currency: string;
+}

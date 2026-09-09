@@ -54,6 +54,12 @@ export function AppLayout(): ReactElement {
                 <Link className="btn btn-sm btn-outline-light" to="/seller/products">
                   {t('nav.sellerProducts')}
                 </Link>
+                <Link className="btn btn-sm btn-outline-light" to="/account/purchases">
+                  {t('nav.purchases')}
+                </Link>
+                <Link className="btn btn-sm btn-outline-light" to="/cart">
+                  {t('nav.cart')}
+                </Link>
                 <Link className="btn btn-sm btn-outline-light" to="/account">
                   {t('nav.account')}
                 </Link>

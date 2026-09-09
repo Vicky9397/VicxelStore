@@ -21,6 +21,14 @@ public sealed class ProductFileRepository(FilesDbContext dbContext) : IProductFi
         dbContext.ProductFiles.CountAsync(
             f => f.VariantId == variantId && f.ScanStatus == ScanStatus.Clean, ct);
 
+    public async Task<IReadOnlyList<ProductFile>> ListCleanForVariantAsync(
+        long variantId,
+        CancellationToken ct) =>
+        await dbContext.ProductFiles
+            .Where(f => f.VariantId == variantId && f.ScanStatus == ScanStatus.Clean)
+            .OrderBy(f => f.FileName)
+            .ToListAsync(ct);
+
     public void Add(ProductFile file) => dbContext.ProductFiles.Add(file);
 }
 

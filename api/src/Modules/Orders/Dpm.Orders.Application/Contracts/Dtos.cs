@@ -33,13 +33,16 @@ public sealed record CheckoutResultDto(
     PaymentIntentDto PaymentIntent,
     TotalsDto Totals);
 
+public sealed record LicenseFileDto(Guid Id, string FileName, long SizeBytes);
+
 public sealed record LicenseDto(
     Guid Id,
     string ProductTitle,
     string VariantName,
     int DownloadLimit,
     int DownloadsUsed,
-    DateTime IssuedAtUtc);
+    DateTime IssuedAtUtc,
+    IReadOnlyList<LicenseFileDto> Files);
 
 public sealed record OrderLineDto(
     string ProductTitle,
